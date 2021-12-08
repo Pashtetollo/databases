@@ -1,4 +1,4 @@
-- programs_has_coach-- -----------------------------------------------------
+   -----------------------------------------------------
 -- Schema UberGym
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `ubergym` DEFAULT CHARACTER SET utf8;
