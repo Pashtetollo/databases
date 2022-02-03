@@ -1,4 +1,4 @@
-# DB_Lab_6
+# DB_Lab_5
 
 
 1. The task have to be  performed on the basis of the designed database model
@@ -26,15 +26,3 @@
 - FindBugs
 - PMD
 - Checkstyle
-
-## To run:
-- compile maven project `mvn compile`
-- package compiled code into .jar `mvn package`
-- run application: `java -cp target\Lab6-1.0-SNAPSHOT.jar ua.lviv.iot.App`
-- to check API go to `http://localhost:8081/Lab6Impl/swagger-ui/index.html#/`:
-    - Pick table
-    - Pick method that you want to test
-    - Type in body for request in JSON format(if body required)
-- run checkstyle: `mvn checkstyle:check`
-- check for bugs `mvn findbugs:gui`
-- check for dublications in code `mvn pmd:pmd`
