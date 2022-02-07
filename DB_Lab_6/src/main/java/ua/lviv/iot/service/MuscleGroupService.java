@@ -21,12 +21,10 @@ public class MuscleGroupService {
         return muscleGroupRepository.findById(id).get();
     }
 
-    @Transactional
     public MuscleGroup create(MuscleGroup muscleGroup) {
         return muscleGroupRepository.save(muscleGroup);
     }
 
-    @Transactional
     public void updateById(MuscleGroup muscleGroup, Integer id) {
         if(muscleGroupRepository.findById(id).isPresent()) {
             MuscleGroup muscleGroupToUpdate  = muscleGroupRepository.findById(id).get();
@@ -36,7 +34,6 @@ public class MuscleGroupService {
         }
     }
 
-    @Transactional
     public void deleteById(Integer id) {
         if (!muscleGroupRepository.existsById(id)) {
             throw new NoSuchElementException();

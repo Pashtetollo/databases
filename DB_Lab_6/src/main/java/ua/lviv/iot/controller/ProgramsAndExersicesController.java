@@ -23,78 +23,88 @@ public class ProgramsAndExersicesController {
     ModelMapper modelMapper = new ModelMapper();
     @Autowired
     ProgramsAndExersicesService programsAndExersicesService;
-    @ApiOperation(value = "Get  all coaches", response = CoachDto.class)
+    @ApiOperation(value = "Get  all exercises in programs", response = ProgramsAndExersicesDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK")
     })
     @GetMapping
-    public ResponseEntity<List<ProgramsAndExersicesDto>> getCoachList() {
+    public ResponseEntity<List<ProgramsAndExersicesDto>> getProgramsAndExersicesList() {
         List<ProgramsAndExersicesDto> progAndExerList = new ArrayList<>();
         for (ProgramsAndExercises programsAndExersices: programsAndExersicesService.getAll()) {
             progAndExerList.add(modelMapper.map(programsAndExersices, ProgramsAndExersicesDto.class));
         }
         return new ResponseEntity<>(progAndExerList, HttpStatus.OK);
     }
-//    @ApiOperation(value = "Get  coach by id")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "OK", response = CoachDto.class),
-//            @ApiResponse(code = 404, message = "Coach with such id not found")
-//    })
-//    @GetMapping(path = "/{id}")
-//    public ResponseEntity<CoachDto> getCoach(@PathVariable Integer id) {
-//        try {
-//            Coach coach = coachService.getById(id);
-//            return new ResponseEntity<>(modelMapper.map(coach, CoachDto.class), HttpStatus.OK);
-//        } catch (NoSuchElementException e) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
-//    @ApiOperation(value = "create new coach")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "coach created", response = CoachDto.class)
-//    })
-//    @PostMapping
-//    public ResponseEntity<CoachDto> newCoach(@RequestBody CoachDto coachDto) {
-//        Coach newCoach = Coach.builder()
-//                .name(coachDto.getName())
-//                .surname(coachDto.getSurname())
-//                .price(coachDto.getPrice())
-//                .phoneNumber(coachDto.getPhoneNumber())
-//                .build();
-//        return new ResponseEntity<>(modelMapper.map(coachService.create(newCoach), CoachDto.class),
-//                HttpStatus.CREATED);
-//    }
-//
-//    @ApiOperation(value = "update coach data")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "coach updated", response = CoachDto.class),
-//            @ApiResponse(code = 404, message = "Coach with such id not found")
-//    })
-//    @PutMapping(path = "/{id}")
-//    public ResponseEntity<CoachDto> updateCoach(@RequestBody CoachDto coachDto, @PathVariable Integer id) {
-//        try {
-//            Coach coach = modelMapper.map(coachDto, Coach.class);
-//            coachService.updateById(coach, id);
-//            coachDto.setId(id);
-//            return new ResponseEntity<>(coachDto, HttpStatus.OK);
-//        } catch (NoSuchElementException e) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
-//
-//    @ApiOperation(value = "Delete coach with id")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 204, message = "", response = CoachDto.class),
-//            @ApiResponse(code = 404, message = "Coach with such id not found")
-//    })
-//    @DeleteMapping(path = "/{id}")
-//    public ResponseEntity<CoachDto> deleteCoach(@PathVariable Integer id) {
-//        try {
-//            coachService.deleteById(id);
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        } catch (NoSuchElementException e) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
+    @ApiOperation(value = "Get  all exercises for specific program", response = ProgramsAndExersicesDto.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK")
+    })
+    @GetMapping(path = "/program/{id}")
+    public ResponseEntity<List<ProgramsAndExersicesDto>> getExercisesListForProgram(@RequestParam int programId) {
+        List<ProgramsAndExersicesDto> progAndExerList = new ArrayList<>();
+        for (ProgramsAndExercises programsAndExersices: programsAndExersicesService.getAllByProgramId(programId)) {
+            progAndExerList.add(modelMapper.map(programsAndExersices, ProgramsAndExersicesDto.class));
+        }
+        return new ResponseEntity<>(progAndExerList, HttpStatus.OK);
+    }
+    @ApiOperation(value = "exercise for program by id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = CoachDto.class),
+            @ApiResponse(code = 404, message = "exercise for program record with such id not found")
+    })
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<ProgramsAndExersicesDto> getProgramsAndExercises(@PathVariable Integer id) {
+        try {
+            ProgramsAndExercises programsAndExercises = programsAndExersicesService.getById(id);
+            return new ResponseEntity<>(modelMapper.map(programsAndExercises, ProgramsAndExersicesDto.class), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @ApiOperation(value = "create exercise for program")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "exercise for program created", response = CoachDto.class)
+    })
+    @PostMapping
+    public ResponseEntity<ProgramsAndExersicesDto> newProgramsAndExercises(
+            @RequestBody ProgramsAndExersicesDto programsAndExersicesDto) {
+        ProgramsAndExercises newProgramsAndExercises = modelMapper.map(programsAndExersicesDto, ProgramsAndExercises.class);
+        return new ResponseEntity<>(modelMapper.map(programsAndExersicesService.create(newProgramsAndExercises),
+                ProgramsAndExersicesDto.class),
+                HttpStatus.CREATED);
+    }
+
+    @ApiOperation(value = "update exercise for program record data")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "exercise for program updated", response = ProgramsAndExersicesDto.class),
+            @ApiResponse(code = 404, message = "exercise for program record with such id not found")
+    })
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<ProgramsAndExersicesDto> updateProgramsAndExercises(
+            @RequestBody ProgramsAndExersicesDto programsAndExersicesDto, @PathVariable Integer id) {
+        try {
+            ProgramsAndExercises programsAndExersices = modelMapper.map(programsAndExersicesDto, ProgramsAndExercises.class);
+            programsAndExersicesService.updateById(programsAndExersices, id);
+            programsAndExersicesDto.setId(id);
+            return new ResponseEntity<>(programsAndExersicesDto, HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @ApiOperation(value = "Delete program for exercise record with id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "", response = ProgramsAndExersicesDto.class),
+            @ApiResponse(code = 404, message = "record with such id not found")
+    })
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<CoachDto> deleteProgramsAndExercises(@PathVariable Integer id) {
+        try {
+            programsAndExersicesService.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
 }

@@ -39,7 +39,7 @@ public class MuscleGroupController {
     }
 
     @PostMapping
-    public ResponseEntity<MuscleGroupDto> newCoach(@RequestBody MuscleGroupDto muscleGroupDto) {
+    public ResponseEntity<MuscleGroupDto> newMuscleGroup(@RequestBody MuscleGroupDto muscleGroupDto) {
         MuscleGroup newMuscleGroup = MuscleGroup.builder()
                 .name(muscleGroupDto.getName())
                 .build();
@@ -48,7 +48,7 @@ public class MuscleGroupController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<MuscleGroupDto> updateCoach(@RequestBody MuscleGroupDto muscleGroupDto, @PathVariable Integer id) {
+    public ResponseEntity<MuscleGroupDto> updateMuscleGroup(@RequestBody MuscleGroupDto muscleGroupDto, @PathVariable Integer id) {
         try {
             MuscleGroup muscleGroup = modelMapper.map(muscleGroupDto, MuscleGroup.class);
             muscleGroupService.updateById(muscleGroup, id);
@@ -60,7 +60,7 @@ public class MuscleGroupController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<MuscleGroupDto> deleteCoach(@PathVariable Integer id) {
+    public ResponseEntity<MuscleGroupDto> deleteMuscleGroup(@PathVariable Integer id) {
         try {
             muscleGroupService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

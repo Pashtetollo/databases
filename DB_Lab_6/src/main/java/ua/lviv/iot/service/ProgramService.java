@@ -23,12 +23,10 @@ public class ProgramService {
         return programRepository.findById(id).get();
     }
 
-    @Transactional
     public Program create(Program program) {
         return programRepository.save(program);
     }
 
-    @Transactional
     public void updateById(Program program, Integer id) {
         if(programRepository.findById(id).isPresent()) {
             Program programToUpdate = programRepository.findById(id).get();
@@ -38,7 +36,6 @@ public class ProgramService {
         }
     }
 
-    @Transactional
     public void deleteById(Integer id) {
         if (!programRepository.existsById(id)) {
             throw new NoSuchElementException();

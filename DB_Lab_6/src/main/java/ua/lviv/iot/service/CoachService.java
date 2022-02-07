@@ -21,12 +21,10 @@ public class CoachService {
         return coachRepository.findById(id).get();
     }
 
-    @Transactional
     public Coach create(Coach coach) {
         return coachRepository.save(coach);
     }
 
-    @Transactional
     public void updateById(Coach coach, Integer id) {
         if(coachRepository.findById(id).isPresent()) {
             Coach coachToUpdate = coachRepository.findById(id).get();
@@ -39,7 +37,6 @@ public class CoachService {
         }
     }
 
-    @Transactional
     public void deleteById(Integer id) {
         if (!coachRepository.existsById(id)) {
             throw new NoSuchElementException();

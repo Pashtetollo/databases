@@ -8,26 +8,27 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 
-@Embeddable
-@Entity
 @Data
-@IdClass(ProgramsAndExercisesId.class)
+@Entity
 @Table(name = "programs_has_exercises")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProgramsAndExercises {
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "programs_id", referencedColumnName = "id")
     @Id
-    private Program programId;
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "exersices_id", referencedColumnName = "id")
-    @Id
-    private Exersice exerciseId;
+
+    @ManyToOne
+    @JoinColumn(name = "program_id")
+    private Program program;
+
+    @ManyToOne
+    @JoinColumn(name = "exercise_id")
+    private Exersice exercise;
 
     @Column(name = "exercise_duration")
     private int exerciseDuration;

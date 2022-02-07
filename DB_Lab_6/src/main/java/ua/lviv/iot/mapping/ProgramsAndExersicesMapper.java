@@ -9,8 +9,9 @@ public class ProgramsAndExersicesMapper extends AbstractConverter<ProgramsAndExe
     protected ProgramsAndExersicesDto convert(ProgramsAndExercises programsAndExercises) {
         return ProgramsAndExersicesDto.builder()
                 .exerciseDuration(programsAndExercises.getExerciseDuration())
-                .exerciseId(programsAndExercises.getExerciseId())
-                .programId(programsAndExercises.getProgramId())
+                .id(programsAndExercises.getId())
+                .exercise(programsAndExercises.getExercise())
+                .program(programsAndExercises.getProgram())
                 .numberOfRepetitions(programsAndExercises.getNumberOfRepetitions())
                 .numberOfSets(programsAndExercises.getNumberOfSets())
                 .build();

@@ -1,3 +1,15 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema ubergym
+-- -----------------------------------------------------
 
 -- -----------------------------------------------------
 -- Schema ubergym
@@ -11,13 +23,13 @@ USE `ubergym` ;
 CREATE TABLE IF NOT EXISTS `ubergym`.`coach` (
                                                  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
                                                  `name` VARCHAR(45) NOT NULL,
-                                                 `surname` VARCHAR(45) NOT NULL,
-                                                 `phone_number` VARCHAR(45) NULL DEFAULT NULL,
-                                                 `price` DOUBLE NULL DEFAULT NULL,
-                                                 PRIMARY KEY (`id`),
-                                                 INDEX `SURNAME_IND` (`surname` ASC) VISIBLE)
+    `surname` VARCHAR(45) NOT NULL,
+    `phone_number` VARCHAR(45) NULL DEFAULT NULL,
+    `price` DOUBLE NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    INDEX `SURNAME_IND` (`surname` ASC) VISIBLE)
     ENGINE = InnoDB
-    AUTO_INCREMENT = 1
+    AUTO_INCREMENT = 16
     DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -27,9 +39,9 @@ CREATE TABLE IF NOT EXISTS `ubergym`.`coach` (
 CREATE TABLE IF NOT EXISTS `ubergym`.`muscle_groups` (
                                                          `id` INT NOT NULL AUTO_INCREMENT,
                                                          `name` VARCHAR(45) NULL DEFAULT NULL,
-                                                         PRIMARY KEY (`id`))
+    PRIMARY KEY (`id`))
     ENGINE = InnoDB
-    AUTO_INCREMENT = 1
+    AUTO_INCREMENT = 9
     DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -39,15 +51,15 @@ CREATE TABLE IF NOT EXISTS `ubergym`.`muscle_groups` (
 CREATE TABLE IF NOT EXISTS `ubergym`.`exersices` (
                                                      `id` INT NOT NULL AUTO_INCREMENT,
                                                      `name` VARCHAR(45) NULL DEFAULT NULL,
-                                                     `targeted_bodypart` INT NOT NULL,
-                                                     PRIMARY KEY (`id`),
-                                                     UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
-                                                     INDEX `targeted_bodypart_IND` (`targeted_bodypart` ASC) VISIBLE,
-                                                     CONSTRAINT `fk_Exersices_Muscle_groups1`
-                                                         FOREIGN KEY (`targeted_bodypart`)
-                                                             REFERENCES `ubergym`.`muscle_groups` (`id`))
+    `targeted_bodypart` INT NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
+    INDEX `targeted_bodypart_IND` (`targeted_bodypart` ASC) VISIBLE,
+    CONSTRAINT `fk_Exersices_Muscle_groups1`
+    FOREIGN KEY (`targeted_bodypart`)
+    REFERENCES `ubergym`.`muscle_groups` (`id`))
     ENGINE = InnoDB
-    AUTO_INCREMENT = 1
+    AUTO_INCREMENT = 10
     DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -57,10 +69,10 @@ CREATE TABLE IF NOT EXISTS `ubergym`.`exersices` (
 CREATE TABLE IF NOT EXISTS `ubergym`.`programs` (
                                                     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
                                                     `name` VARCHAR(45) NOT NULL,
-                                                    PRIMARY KEY (`id`),
-                                                    UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)
     ENGINE = InnoDB
-    AUTO_INCREMENT = 1
+    AUTO_INCREMENT = 6
     DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -68,21 +80,23 @@ CREATE TABLE IF NOT EXISTS `ubergym`.`programs` (
 -- Table `ubergym`.`programs_has_exercises`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ubergym`.`programs_has_exercises` (
-                                                                  `Programs_id` INT UNSIGNED NOT NULL,
-                                                                  `Exersices_id` INT NOT NULL,
+                                                                  `id` INT NOT NULL AUTO_INCREMENT,
+                                                                  `program_id` INT UNSIGNED NOT NULL,
+                                                                  `exercise_id` INT NOT NULL,
                                                                   `exercise_duration` INT NULL DEFAULT NULL,
                                                                   `number_of_repetitions` INT NULL DEFAULT NULL,
                                                                   `number_of_sets` INT NULL DEFAULT NULL,
-                                                                  PRIMARY KEY (`Exersices_id`, `Programs_id`),
-                                                                  INDEX `fk_Programs_has_Exercises_Programs1_idx` (`Programs_id` ASC) VISIBLE,
-                                                                  INDEX `fk_Programs_has_Exercises_Exersices_idx` (`Exersices_id` ASC) VISIBLE,
-                                                                  CONSTRAINT `fk_Programs_has_Exercises_Exersices`
-                                                                      FOREIGN KEY (`Exersices_id`)
-                                                                          REFERENCES `ubergym`.`exersices` (`id`),
-                                                                  CONSTRAINT `fk_Programs_has_Exercises_Programs1`
-                                                                      FOREIGN KEY (`Programs_id`)
-                                                                          REFERENCES `ubergym`.`programs` (`id`))
+                                                                  PRIMARY KEY (`id`),
+    INDEX `fk_Programs_has_Exercises_Programs1_idx` (`program_id` ASC) VISIBLE,
+    INDEX `fk_Programs_has_Exercises_Exersices_idx` (`exercise_id` ASC) VISIBLE,
+    CONSTRAINT `fk_Programs_has_Exercises_Exersices`
+    FOREIGN KEY (`exercise_id`)
+    REFERENCES `ubergym`.`exersices` (`id`),
+    CONSTRAINT `fk_Programs_has_Exercises_Programs1`
+    FOREIGN KEY (`program_id`)
+    REFERENCES `ubergym`.`programs` (`id`))
     ENGINE = InnoDB
+    AUTO_INCREMENT = 15
     DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -90,33 +104,22 @@ CREATE TABLE IF NOT EXISTS `ubergym`.`programs_has_exercises` (
 -- Table `ubergym`.`user`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ubergym`.`user` (
-                                                `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                `surname` VARCHAR(45) NOT NULL,
-                                                `name` VARCHAR(45) NOT NULL,
-                                                `programs_id` INT UNSIGNED NULL,
-                                                `coach_id` INT UNSIGNED NULL,
-                                                PRIMARY KEY (`id`),
-                                                INDEX `SURNAME_IND` (`surname` ASC) VISIBLE,
-                                                INDEX `fk_user_programs1_idx` (`programs_id` ASC) VISIBLE,
-                                                INDEX `fk_user_coach1_idx` (`coach_id` ASC) VISIBLE,
-                                                CONSTRAINT `fk_user_programs1`
-                                                    FOREIGN KEY (`programs_id`)
-                                                        REFERENCES `ubergym`.`programs` (`id`)
-                                                        ON DELETE NO ACTION
-                                                        ON UPDATE NO ACTION,
-                                                CONSTRAINT `fk_user_coach1`
-                                                    FOREIGN KEY (`coach_id`)
-                                                        REFERENCES `ubergym`.`coach` (`id`)
-                                                        ON DELETE NO ACTION
-                                                        ON UPDATE NO ACTION)
+                                                `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                `name` VARCHAR(255) NULL DEFAULT NULL,
+    `surname` VARCHAR(255) NULL DEFAULT NULL,
+    `coach_id` INT NULL DEFAULT NULL,
+    `programs_id` INT NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `id` (`id` ASC) VISIBLE)
     ENGINE = InnoDB
-    AUTO_INCREMENT = 1
+    AUTO_INCREMENT = 15
     DEFAULT CHARACTER SET = utf8mb3;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
 
 INSERT INTO coach (name, surname, phone_number, price)
 VALUES ('Bohdan', 'Pervka', '+380124764323', 999.99),
@@ -161,7 +164,7 @@ VALUES ('Plank', 1),
        ('Squats', 4);
 
 
-INSERT INTO programs_has_exercises(Programs_id, Exersices_id, exercise_duration,
+INSERT INTO programs_has_exercises(program_id, exercise_id, exercise_duration,
                                    number_of_repetitions, number_of_sets)
 VALUES (1, 4, 60, 1, 5),
        (1, 3, 45, 20, 5),

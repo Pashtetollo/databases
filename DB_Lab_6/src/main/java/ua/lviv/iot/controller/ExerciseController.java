@@ -50,7 +50,7 @@ public class ExerciseController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<ExersiceDto> updateCoach(@RequestBody ExersiceDto exersiceDto, @PathVariable Integer id) {
+    public ResponseEntity<ExersiceDto> updateExercise(@RequestBody ExersiceDto exersiceDto, @PathVariable Integer id) {
         try {
             Exersice exersice = modelMapper.map(exersiceDto, Exersice.class);
             exersiceService.updateById(exersice, id);
@@ -62,7 +62,7 @@ public class ExerciseController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<ExersiceDto> deleteCoach(@PathVariable Integer id) {
+    public ResponseEntity<ExersiceDto> deleteExercise(@PathVariable Integer id) {
         try {
             exersiceService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

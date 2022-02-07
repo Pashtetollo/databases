@@ -21,12 +21,10 @@ public class UserService {
         return userRepository.findById(id).get();
     }
 
-    @Transactional
     public User create(User user) {
         return userRepository.save(user);
     }
 
-    @Transactional
     public void updateById(User user, Integer id) {
         if(userRepository.findById(id).isPresent()) {
             User userToUpdate = userRepository.findById(id).get();
@@ -39,7 +37,6 @@ public class UserService {
         }
     }
 
-    @Transactional
     public void deleteById(Integer id) {
         if (!userRepository.existsById(id)) {
             throw new NoSuchElementException();

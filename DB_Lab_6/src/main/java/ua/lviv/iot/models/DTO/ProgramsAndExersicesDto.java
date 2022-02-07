@@ -12,8 +12,9 @@ import ua.lviv.iot.models.entity.Program;
 @NoArgsConstructor
 @Builder
 public class ProgramsAndExersicesDto {
-    private Program programId;
-    private Exersice exerciseId;
+    private int id;
+    private Program program;
+    private Exersice exercise;
     private int exerciseDuration;
     private int numberOfRepetitions;
     private int numberOfSets;

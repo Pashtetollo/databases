@@ -21,12 +21,10 @@ public class ExersiceService {
         return exersiceRepository.findById(id).get();
     }
 
-    @Transactional
     public Exersice create(Exersice exersice) {
         return exersiceRepository.save(exersice);
     }
 
-    @Transactional
     public void updateById(Exersice exersice, Integer id) {
         if(exersiceRepository.findById(id).isPresent()) {
             Exersice exersiceToUpdate = exersiceRepository.findById(id).get();
@@ -36,7 +34,6 @@ public class ExersiceService {
         }
     }
 
-    @Transactional
     public void deleteById(Integer id) {
         if (!exersiceRepository.existsById(id)) {
             throw new NoSuchElementException();
