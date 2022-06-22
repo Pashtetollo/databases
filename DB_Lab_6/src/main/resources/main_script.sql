@@ -26,10 +26,9 @@ CREATE TABLE IF NOT EXISTS `ubergym`.`coach` (
     `surname` VARCHAR(45) NOT NULL,
     `phone_number` VARCHAR(45) NULL DEFAULT NULL,
     `price` DOUBLE NULL DEFAULT NULL,
-    PRIMARY KEY (`id`),
+    PRIMARY KEY (`id`) ,
     INDEX `SURNAME_IND` (`surname` ASC) VISIBLE)
     ENGINE = InnoDB
-    AUTO_INCREMENT = 16
     DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -41,7 +40,6 @@ CREATE TABLE IF NOT EXISTS `ubergym`.`muscle_groups` (
                                                          `name` VARCHAR(45) NULL DEFAULT NULL,
     PRIMARY KEY (`id`))
     ENGINE = InnoDB
-    AUTO_INCREMENT = 9
     DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -59,7 +57,6 @@ CREATE TABLE IF NOT EXISTS `ubergym`.`exersices` (
     FOREIGN KEY (`targeted_bodypart`)
     REFERENCES `ubergym`.`muscle_groups` (`id`))
     ENGINE = InnoDB
-    AUTO_INCREMENT = 10
     DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -72,7 +69,6 @@ CREATE TABLE IF NOT EXISTS `ubergym`.`programs` (
     PRIMARY KEY (`id`),
     UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)
     ENGINE = InnoDB
-    AUTO_INCREMENT = 6
     DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -96,7 +92,6 @@ CREATE TABLE IF NOT EXISTS `ubergym`.`programs_has_exercises` (
     FOREIGN KEY (`program_id`)
     REFERENCES `ubergym`.`programs` (`id`))
     ENGINE = InnoDB
-    AUTO_INCREMENT = 15
     DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -112,7 +107,6 @@ CREATE TABLE IF NOT EXISTS `ubergym`.`user` (
     PRIMARY KEY (`id`),
     UNIQUE INDEX `id` (`id` ASC) VISIBLE)
     ENGINE = InnoDB
-    AUTO_INCREMENT = 15
     DEFAULT CHARACTER SET = utf8mb3;
 
 
